@@ -8,6 +8,9 @@ import javaposse.jobdsl.plugin.JenkinsJobManagement;
 import jenkins.model.Jenkins;
 import org.apache.commons.io.FileUtils;
 import org.jvnet.hudson.test.JenkinsRule;
+import javaposse.jobdsl.dsl.GeneratedJob;
+import java.lang.reflect.Field;
+
 import org.junit.Before;
 import org.junit.After;
 import java.nio.file.Files;
@@ -57,7 +60,9 @@ public class JobScriptsSpec {
     Jenkins jenkinInstance = jenkinsRule.jenkins; // Corrected here
 
        for (GeneratedJob generatedJob : items.getJobs()) {
-           String jobName=generatedJob.getFullName();
+           Field field = GeneratedJob.class.getDeclaredField("jobName");
+           field.setAccessible(true);  // Make it accessible
+           String jobName = (String) field.get(generatedJob);  // Get its value
            Item item=jenkinInstance.getItemByFullName(jobName);
 
            URL url=new URL(jenkinInstance.getRootUrl()+item.getUrl()+"config.xml");

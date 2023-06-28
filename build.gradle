@@ -55,6 +55,8 @@ dependencies {
     testImplementation "org.jenkins-ci.plugins:job-dsl:1.83"
     testImplementation "org.jenkins-ci.plugins:job-dsl:1.83@jar"
     testImplementation 'org.jenkins-ci.plugins:structs:1.20@jar'
+    implementation 'org.jenkins-ci.plugins:job-dsl-core:1.83'
+
 }
 
 test {
