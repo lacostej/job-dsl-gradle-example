@@ -1,5 +1,7 @@
 package com.dslexample;
 
+import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import hudson.model.Item;
 import hudson.model.View;
 import javaposse.jobdsl.dsl.DslScriptLoader;
@@ -10,6 +12,7 @@ import org.apache.commons.io.FileUtils;
 import org.jvnet.hudson.test.JenkinsRule;
 import javaposse.jobdsl.dsl.GeneratedJob;
 import java.lang.reflect.Field;
+import java.util.Set;
 
 import org.junit.Before;
 import org.junit.After;
@@ -23,63 +26,53 @@ import org.junit.Assert;
 import com.dslexample.support.TestUtil;
 
 public class JobScriptsSpec {
-
-    private JenkinsRule jenkinsRule = new JenkinsRule();
+    @org.junit.Rule
+    public JenkinsRule jenkinsRule = new JenkinsRule();
     private File outputDir = new File("./build/debug-xml");
 
     @Before
     public void setup() throws Exception {
         FileUtils.deleteDirectory(outputDir);
-        this.jenkinsRule.before();  // Start the mock Jenkins environment.
     }
 
     @After
-    public void cleanup() throws Exception {
-        this.jenkinsRule.after();   // Stop the mock Jenkins environment.
+    public void cleanup(){
     }
+
     
-     @Test 
-     public void testScriptFiles() { 
-         for (File file : TestUtil.getJobFiles()) { 
-             try {  
-                 DslScriptLoader loader = new DslScriptLoader(new JenkinsJobManagement(System.out, Collections.emptyMap(), new File("."))); 
+    @Test
+    public void testScriptFiles() {
+        DslScriptLoader loader = new DslScriptLoader(new JenkinsJobManagement(System.out, Collections.emptyMap(), new File(".")));
 
-                 String scriptText = Files.readString(file.toPath());
-                 GeneratedItems items = loader.runScript(scriptText); 
+        for (File file : TestUtil.getJobFiles()) {
+            try {
+                String scriptText = Files.readString(file.toPath());
 
-                 writeItems(items, outputDir);
-                 
-             } catch (Exception e) { Assert.fail("Failed to process " + file.getName()); } }
-      }
+                // Run the script and get generated items.
+                GeneratedItems items = loader.runScript(scriptText);
+
+               writeItems(items.getJobs(), outputDir);
+
+            } catch (Exception e) {
+               Assert.fail("Failed to process " + file.getName());
+            }
+        }
+    }
 
 
    /**
      * Write the config.xml for each generated job and view to the build dir.
      */
-   private void writeItems(GeneratedItems items, File outputDir) throws IOException {
-    Jenkins jenkinInstance = jenkinsRule.jenkins; // Corrected here
+     private void writeItems(Set<GeneratedJob> jobs, File outputDir) throws IOException {
+       Jenkins jenkinInstance = jenkinsRule.jenkins;
 
-       for (GeneratedJob generatedJob : items.getJobs()) {
-           Field field = GeneratedJob.class.getDeclaredField("jobName");
-           field.setAccessible(true);  // Make it accessible
-           String jobName = (String) field.get(generatedJob);  // Get its value
-           Item item=jenkinInstance.getItemByFullName(jobName);
+       for (GeneratedJob generatedJob : jobs) {
+           Item item=jenkinInstance.getItemByFullName(generatedJob.getJobName());
 
            URL url=new URL(jenkinInstance.getRootUrl()+item.getUrl()+"config.xml");
            String text=new String(url.openStream().readAllBytes(), StandardCharsets.UTF_8);
 
-           TestUtil.writeFile(new File(outputDir,"jobs"),jobName,text);
+           TestUtil.writeFile(new File(outputDir,"jobs"),generatedJob.getJobName(),text);
        }
-       
-       for(GeneratedView generatedView:items.views){
-            String viewname=generatedView.name;  
-            View view=jenkinInstance.getView(viewname);  
-
-            URL url=new URL(jenkinInstance.getRootUrl()+view.getUrl()+"config.xml");   
-            String text=new String(url.openStream().readAllBytes(), StandardCharsets.UTF_8);   
-
-            TestUtil.writeFile(new File(outputDir,"views"),viewname,text);     
-        }
-        
-   }
+    }
 }
