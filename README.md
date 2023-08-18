@@ -1,6 +1,48 @@
 # Jenkins Job DSL Gradle Example 
 
-An example [Job DSL](https://github.com/jenkinsci/job-dsl-plugin) project that uses Gradle for building and testing. Check out [this presentation](https://www.youtube.com/watch?v=SSK_JaBacE0) for a walkthrough of this example (starts around 14:00). 
+
+export http_proxy=http://10.158.100.1:8080
+export https_proxy=http://10.158.100.1:8080
+wget https://services.gradle.org/distributions/gradle-8.1.1-bin.zip
+unzip gradle-8.1.1-bin.zip
+sudo mkdir /usr/local/gradle
+sudo mv gradle-8.1.1/* /usr/local/gradle
+vi ~/.bashrc
+
+git clone https://github.com/sheehan/job-dsl-gradle-example
+cd job-dsl-gradle-example/
+export JAVA_HOME=/usr/lib/jvm/java-11-openjdk-11.0.19.0.7-1.fc38.x86_64/
+
+
+./gradlew --stop
+gradle wrapper
+gradle clean test --tests com.dslexample.JobScriptsSpec --info
+-----------------------------------
+rm -rf ~/.gradle/caches/
+
+./gradlew clean build --stacktrace --refresh-dependencies
+./gradlew --stacktrace clean  test
+./gradlew test --stacktrace --info
+
+-----------------------------------
+
+
+vi ~/.gradle/gradle.properties
+# Properties
+systemProp.http.keepAlive=true
+systemProp.http.proxyHost=10.158.100.1
+systemProp.http.proxyPort=8080
+systemProp.http.nonProxyHosts=localhost|127.0.0.1|10.10.1.*
+
+systemProp.https.keepAlive=true
+systemProp.https.proxyHost=10.158.100.1
+systemProp.https.proxyPort=8080
+systemProp.https.nonProxyHosts=localhost|127.0.0.1|10.10.1.*
+
+
+---------------
+
+An example [Job DSL](https://github.com/jenkinsci/job-dsl-plugin) project that uses Gradle for building and testing. Check out [this presentation](https://www.youtube.com/watch?v=SSK_JaBacE0) for a walkthrough of this example (starts around 14:00).
 
 ## File structure
 
