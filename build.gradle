@@ -3,6 +3,11 @@ apply plugin: 'groovy'
 sourceCompatibility = 11
 targetCompatibility = 11
 
+ext {
+    jobDslVersion = '1.81'
+    jenkinsVersion = '2.414.1'
+}
+
 sourceSets {
     main {
         groovy {
@@ -47,28 +52,105 @@ configurations.all*.exclude group: 'xalan'
 dependencies {
     implementation 'org.codehaus.groovy:groovy-all:3.0.17'
     implementation 'org.apache.logging.log4j:log4j-core:2.14.1'
-    implementation 'org.jenkins-ci.main:jenkins-core:2.411'
+    implementation "org.jenkins-ci.main:jenkins-core:${jenkinsVersion}"
     implementation 'org.jenkins-ci.main:jenkins-test-harness:2042.v787a_641a_9b_26'
-    implementation 'org.jenkins-ci.main:jenkins-war:2.411'
+    implementation "org.jenkins-ci.main:jenkins-war:${jenkinsVersion}"
 
     testImplementation 'junit:junit:4.13'
     testImplementation 'commons-io:commons-io:2.11.0'
 
     // Job DSL plugin including plugin dependencies
-    testImplementation "org.jenkins-ci.plugins:job-dsl:1.83"
-    testImplementation "org.jenkins-ci.plugins:job-dsl:1.83@jar"
+    testImplementation "org.jenkins-ci.plugins:job-dsl:${jobDslVersion}"
+    testImplementation "org.jenkins-ci.plugins:job-dsl:${jobDslVersion}@jar"
     testImplementation 'org.jenkins-ci.plugins:structs:1.20@jar'
     implementation 'org.jenkins-ci.plugins:job-dsl-core:1.83'
 
     // testImplementation 'org.jenkins-ci.main:jenkins-test-harness-tools:2.2'
 
     // Plugins to install in test instance
-    testPlugins 'org.jenkins-ci.plugins:cloudbees-folder:5.14'
-    testPlugins 'org.jenkins-ci.plugins:credentials:2.1.10'
-    testPlugins 'org.jenkins-ci.plugins:cvs:2.13'
-    testPlugins 'org.jenkins-ci.plugins:ghprb:1.40.0'
-    testPlugins 'org.jenkins-ci.plugins:token-macro:2.5'
-    testPlugins 'org.jenkins-ci.plugins.workflow:workflow-cps-global-lib:2.7'
+    testPlugins 'io.jenkins.plugins:ionicons-api:56.v1b_1c8c49374e'
+    testPlugins 'org.jenkins-ci.plugins:cloudbees-folder:6.848.ve3b_fd7839a_81'
+    testPlugins 'org.jenkins-ci.plugins:antisamy-markup-formatter:162.v0e6ec0fcfcf6'
+    testPlugins 'org.jenkins-ci.plugins:bouncycastle-api:2.29'
+    testPlugins 'org.jenkins-ci.modules:instance-identity:173.va_37c494ec4e5'
+    testPlugins 'io.jenkins.plugins:javax-activation-api:1.2.0-6'
+    testPlugins 'io.jenkins.plugins:javax-mail-api:1.6.2-9'
+    testPlugins 'org.jenkins-ci.plugins.workflow:workflow-step-api:639.v6eca_cd8c04a_a_'
+    testPlugins 'org.jenkins-ci.plugins:token-macro:384.vf35b_f26814ec'
+    testPlugins 'org.jenkins-ci.plugins:build-timeout:1.31'
+    testPlugins 'org.jenkins-ci.plugins:credentials:1271.v54b_1c2c6388a_'
+    testPlugins 'org.jenkins-ci.plugins:plain-credentials:143.v1b_df8b_d3b_e48'
+    testPlugins 'org.jenkins-ci.plugins:trilead-api:2.84.v72119de229b_7'
+    testPlugins 'org.jenkins-ci.plugins:ssh-credentials:308.ve4497b_ccd8f4'
+    testPlugins 'org.jenkins-ci.plugins:credentials-binding:636.v55f1275c7b_27'
+    testPlugins 'org.jenkins-ci.plugins:scm-api:676.v886669a_199a_a_'
+    testPlugins 'org.jenkins-ci.plugins.workflow:workflow-api:1281.vca_5fddb_3fceb_'
+    testPlugins 'io.jenkins.plugins:commons-lang3-api:3.13.0-62.v7d18e55f51e2'
+    testPlugins 'org.jenkins-ci.plugins:timestamper:1.26'
+    testPlugins 'io.jenkins.plugins:caffeine-api:3.1.8-133.v17b_1ff2e0599'
+    testPlugins 'org.jenkins-ci.plugins:script-security:1275.v23895f409fb_d'
+    testPlugins 'io.jenkins.plugins:jaxb:2.3.8-1'
+    testPlugins 'io.jenkins.plugins:snakeyaml-api:2.2-111.vc6598e30cc65'
+    testPlugins 'org.jenkins-ci.plugins:jackson2-api:2.15.2-350.v0c2f3f8fc595'
+    testPlugins 'io.jenkins.plugins:commons-text-api:1.10.0-78.v3e7b_ea_d5a_fe1'
+    testPlugins 'org.jenkins-ci.plugins.workflow:workflow-support:865.v43e78cc44e0d'
+    testPlugins 'io.jenkins.plugins:plugin-util-api:3.3.0'
+    testPlugins 'io.jenkins.plugins:font-awesome-api:6.4.2-1'
+    testPlugins 'io.jenkins.plugins:bootstrap5-api:5.3.2-1'
+    testPlugins 'io.jenkins.plugins:jquery3-api:3.7.1-1'
+    testPlugins 'io.jenkins.plugins:echarts-api:5.4.0-6'
+    testPlugins 'org.jenkins-ci.plugins:display-url-api:2.3.9'
+    testPlugins 'io.jenkins.plugins:checks-api:2.0.2'
+    testPlugins 'org.jenkins-ci.plugins:junit:1240.vf9529b_881428'
+    testPlugins 'org.jenkins-ci.plugins:matrix-project:808.v5a_b_5f56d6966'
+    testPlugins 'org.jenkins-ci.plugins:resource-disposer:0.23'
+    testPlugins 'org.jenkins-ci.plugins:ws-cleanup:0.45'
+    testPlugins 'org.jenkins-ci.plugins:ant:497.v94e7d9fffa_b_9'
+    testPlugins 'org.jenkins-ci.plugins:durable-task:523.va_a_22cf15d5e0'
+    testPlugins 'org.jenkins-ci.plugins.workflow:workflow-durable-task-step:1289.v4d3e7b_01546b_'
+    testPlugins 'org.jenkins-ci.plugins.workflow:workflow-scm-step:415.v434365564324'
+    testPlugins 'org.jenkins-ci.plugins.workflow:workflow-cps:3791.va_c0338ea_b_59c'
+    testPlugins 'org.jenkins-ci.plugins.workflow:workflow-job:1346.v180a_63f40267'
+    testPlugins 'io.jenkins.plugins:jakarta-activation-api:2.0.1-3'
+    testPlugins 'io.jenkins.plugins:jakarta-mail-api:2.0.1-3'
+    testPlugins 'org.jenkins-ci.plugins:apache-httpcomponents-client-4-api:4.5.14-208.v438351942757'
+    testPlugins 'org.jenkins-ci.plugins:mailer:463.vedf8358e006b_'
+    testPlugins 'org.jenkins-ci.plugins.workflow:workflow-basic-steps:1042.ve7b_140c4a_e0c'
+    testPlugins 'org.jenkins-ci.plugins:gradle:2.8.2'
+    testPlugins 'org.jenkins-ci.plugins:pipeline-milestone-step:111.v449306f708b_7'
+    testPlugins 'org.jenkins-ci.plugins:pipeline-build-step:505.v5f0844d8d126'
+    testPlugins 'org.jenkins-ci.plugins:variant:60.v7290fc0eb_b_cd'
+    testPlugins 'io.jenkins.plugins:pipeline-groovy-lib:689.veec561a_dee13'
+    testPlugins 'org.jenkins-ci.plugins:pipeline-stage-step:305.ve96d0205c1c6'
+    testPlugins 'org.jenkinsci.plugins:pipeline-model-api:2.2144.v077a_d1928a_40'
+    testPlugins 'org.jenkinsci.plugins:pipeline-model-extensions:2.2144.v077a_d1928a_40'
+    testPlugins 'org.jenkins-ci.plugins:branch-api:2.1128.v717130d4f816'
+    testPlugins 'org.jenkins-ci.plugins.workflow:workflow-multibranch:756.v891d88f2cd46'
+    testPlugins 'org.jenkinsci.plugins:pipeline-stage-tags-metadata:2.2144.v077a_d1928a_40'
+    testPlugins 'io.jenkins.plugins.mina-sshd-api:mina-sshd-api-common:2.10.0-69.v28e3e36d18eb_'
+    testPlugins 'io.jenkins.plugins.mina-sshd-api:mina-sshd-api-core:2.10.0-69.v28e3e36d18eb_'
+    testPlugins 'org.jenkins-ci.plugins:git-client:4.5.0'
+    testPlugins 'org.jenkins-ci.plugins:pipeline-input-step:477.v339683a_8d55e'
+    testPlugins 'org.jenkinsci.plugins:pipeline-model-definition:2.2144.v077a_d1928a_40'
+    testPlugins 'org.jenkins-ci.plugins.workflow:workflow-aggregator:596.v8c21c963d92d'
+    testPlugins 'io.jenkins.plugins:jjwt-api:0.11.5-77.v646c772fddb_0'
+    testPlugins 'io.jenkins.plugins:okhttp-api:4.11.0-157.v6852a_a_fa_ec11'
+    testPlugins 'org.jenkins-ci.plugins:github-api:1.314-431.v78d72a_3fe4c3'
+    testPlugins 'org.jenkins-ci.plugins:git:5.2.0'
+    testPlugins 'com.coravy.hudson.plugins.github:github:1.37.3'
+    testPlugins 'org.jenkins-ci.plugins:github-branch-source:1741.va_3028eb_9fd21'
+    testPlugins 'org.jenkins-ci.plugins:pipeline-github-lib:42.v0739460cda_c4'
+    testPlugins 'org.jenkins-ci.plugins:pipeline-graph-analysis:202.va_d268e64deb_3'
+    testPlugins 'org.jenkins-ci.plugins.pipeline-stage-view:pipeline-rest-api:2.33'
+    testPlugins 'org.jenkins-ci.plugins.pipeline-stage-view:pipeline-stage-view:2.33'
+    testPlugins 'org.jenkins-ci.plugins:ssh-slaves:2.916.vd17b_43357ce4'
+    testPlugins 'org.jenkins-ci.plugins:matrix-auth:3.2.1'
+    testPlugins 'org.jenkins-ci.plugins:pam-auth:1.10'
+    testPlugins 'org.jenkins-ci.plugins:ldap:701.vf8619de9160a_'
+    testPlugins 'org.jenkins-ci.plugins:email-ext:2.101'
+
+    testPlugins 'org.jenkins-ci.plugins:cvs:2.19.1'
+    testPlugins 'org.jvnet.hudson.plugins:groovy-postbuild:2.5'
 }
 
 task resolveTestPlugins(type: Copy) {

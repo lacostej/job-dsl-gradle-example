@@ -16,11 +16,13 @@ job("$basePath/gradle-example-build") {
         }
     }
     triggers {
+        /* DEPRECATED
         githubPullRequest {
             admin 'sheehan'
             triggerPhrase 'OK to test'
             onlyTriggerPhrase true
         }
+        */
     }
     steps {
         gradle 'assemble'
