@@ -3,11 +3,6 @@ apply plugin: 'groovy'
 sourceCompatibility = 11
 targetCompatibility = 11
 
-ext {
-    jobDslVersion = '1.81'
-    jenkinsVersion = '2.414.1'
-}
-
 sourceSets {
     main {
         groovy {
